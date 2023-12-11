@@ -1,0 +1,28 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url  	= env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Account {
+  id                        String       @default(cuid()) @id
+  uid                       String       @unique
+  // email                     String       @unique
+  wallet_name               String?
+  crypto_wallet_address     String?      @unique
+  saving_wallet_address     String?      @unique
+  invest_wallet_address     String?      @unique
+  crypto_wallet_salt        Int          @unique
+  saving_wallet_salt        Int          @unique
+  invest_wallet_salt        Int          @unique
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+  @@map(name: "accounts")
+}
