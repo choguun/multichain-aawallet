@@ -55,9 +55,8 @@ const WalletPage = () => {
     const fujiLinkPriceFeed =  '0xEA0128f5339014D7a82d50444b902b10F3E00992';
 
 
-    const sepoliaProvider = new ethers.providers.JsonRpcProvider('https://ethereum-sepolia-rpc.allthatnode.com/JWJzENK28XparEtnuPckDNf8XXFATyID');
-    const mumbaiProvider = new ethers.providers.JsonRpcProvider('https://polygon-testnet-rpc.allthatnode.com:8545/JWJzENK28XparEtnuPckDNf8XXFATyID');
-    const fujiProvider = new ethers.providers.JsonRpcProvider('https://avalanche-fuji-rpc.allthatnode.com/JWJzENK28XparEtnuPckDNf8XXFATyID/ext/bc/C/rpc');
+    const mumbaiProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_MUMBAI_URL!);
+    const fujiProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_FUJI_URL);
 
 
     const getMumbaiAccountBalance = async () => {
