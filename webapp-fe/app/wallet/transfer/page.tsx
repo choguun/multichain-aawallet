@@ -199,9 +199,9 @@ const WithdrawPage = () => {
                             <option value="mumbai">
                                 Mumbai
                             </option>
-                            <option value="Fuji">
+                            {/* <option value="Fuji">
                                 Fuji
-                            </option>
+                            </option> */}
                         </select>
                     </div>
                     <div className="mt-3 mb-3">
