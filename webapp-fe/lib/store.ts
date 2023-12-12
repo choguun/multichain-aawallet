@@ -133,10 +133,12 @@ const transfer = async (account: any, amount: any, network: any) => {
 
   const lane = '0x19F2b3e2a630F7F2CC0E64dE96CfCBDd45ca51Fa';
   
+  const tokenContract = new ethers.Contract(tokenAddress, ERC20_ABI, provider);
   const laneContract = new ethers.Contract(lane, CCIP_ABI, provider);
 
-    dest = [laneContract.address];
+    dest = [tokenContract.address, laneContract.address];
     data = [
+      tokenContract.interface.encodeFunctionData("transfer", [lane, amount2]),
       laneContract.interface.encodeFunctionData("transferTokensPayLINK", [
         chainSelector,
         crypto_wallet_address,
