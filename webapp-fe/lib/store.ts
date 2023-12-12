@@ -95,13 +95,13 @@ const CCIP_ABI = [
   },
 ];
 
-const transfer = async (account: any, amount: any, network: any, lane: any, source: any) => {
+const transfer = async (account: any, amount: any, network: any) => {
   const { crypto_wallet_address, crypto_wallet_salt } = account;
 
   let rpcUrl = network === 'mumbai' ? rpcUrlMumbai : rpcUrlFuji;
   let paymasterUrl = network === 'mumbai' ? paymasterUrlMumbai : paymasterUrlFuji;
   let provider = network === 'mumbai' ? providerMumbai : providerFuji;
-  let chainSelector = network === 'mumbai' ? '12532609583862916517' : '14767482510784806043';
+  let chainSelector = network === 'mumbai' ? '14767482510784806043' : '14767482510784806043';
 
   const client = await Client.init(rpcUrl, {
       entryPoint: entryPoint
@@ -124,39 +124,38 @@ const transfer = async (account: any, amount: any, network: any, lane: any, sour
       }
   );
 
-  const sourceToken = new ethers.Contract(source, ERC20_ABI, provider);
-  const laneContract = new ethers.Contract(lane, CCIP_ABI, provider);
-
-  const decimals = await Promise.all([sourceToken.decimals()]);
+  const tokenAddress = '0xf1E3A5842EeEF51F2967b3F05D45DD4f4205FF40';
+  const decimals = 18;
   const amount2 = ethers.utils.parseUnits(amount, decimals);
 
   let dest: Array<string> = [];
   let data: Array<string> = [];
 
-  dest = [sourceToken.address, laneContract.address];
-  data = [
-    sourceToken.interface.encodeFunctionData("approve", [
-      laneContract.address,
-      amount2,
-    ]),
-    laneContract.interface.encodeFunctionData("transferTokensPayLINK", [
-      chainSelector,
-      crypto_wallet_address,
-      sourceToken.address,
-      amount2
-    ]),
-  ];
+  const lane = '0x19F2b3e2a630F7F2CC0E64dE96CfCBDd45ca51Fa';
+  
+  const laneContract = new ethers.Contract(lane, CCIP_ABI, provider);
 
-  const res = await client.sendUserOperation(
-    simpleAccount.executeBatch(dest, data), {
-      onBuild: (op) => console.log("Signed UserOperation:", op),
-  });
+    dest = [laneContract.address];
+    data = [
+      laneContract.interface.encodeFunctionData("transferTokensPayLINK", [
+        chainSelector,
+        crypto_wallet_address,
+        tokenAddress,
+        amount2
+      ]),
+    ];
 
-  console.log(`UserOpHash: ${res.userOpHash}`);
+    const res = await client.sendUserOperation(
+        simpleAccount.executeBatch(dest, data), {
+          onBuild: (op) => console.log("Signed UserOperation:", op),
+      });
 
-  console.log("Waiting for transaction...");
-  const ev = await res.wait();
-  console.log(`Transaction hash: ${ev?.transactionHash ?? null}`);
+    console.log(`UserOpHash: ${res.userOpHash}`);
+
+    console.log("Waiting for transaction...");
+
+    const ev = await res.wait();
+    console.log(`Transaction hash: ${ev?.transactionHash ?? null}`);
 
 
   return ev?.transactionHash ?? null;

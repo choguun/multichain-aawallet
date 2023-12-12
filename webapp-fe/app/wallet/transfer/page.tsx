@@ -87,7 +87,7 @@ const WithdrawPage = () => {
 
             if(credential?.response.signature.length > 0) {
                 setLoading(true);
-                const result = await transfer(account, amount, selectedNetwork, lane, source);
+                const result = await transfer(account, amount, selectedNetwork);
                 toast.success(`Transaction hash: ${result}`);
                 router.push('/wallet');
             } else {
@@ -158,7 +158,7 @@ const WithdrawPage = () => {
             const rpcUrl = selectedNetwork === 'mumbai' ? process.env.NEXT_PUBLIC_RPC_MUMBAI_URL: process.env.NEXT_PUBLIC_RPC_FUJI_URL;
             const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
 
-            const tokenAddress = selectedNetwork === 'mumbai' ? '0x9999f7fea5938fd3b1e26a12c3f2fb024e194f97' : '0x5425890298aed601595a70ab815c96711a31bc65';
+            const tokenAddress = selectedNetwork === 'mumbai' ? '0xf1E3A5842EeEF51F2967b3F05D45DD4f4205FF40' : '0x5425890298aed601595a70ab815c96711a31bc65';
             
             const erc20USDC = new ethers.Contract(tokenAddress, ERC20ABI, provider);
 
@@ -211,7 +211,7 @@ const WithdrawPage = () => {
                                 Please select
                             </option>
                             <option value="usdc">
-                                USDC
+                                CCIP-BnM
                             </option>
                             {/* <option value="link">
                                 LINK

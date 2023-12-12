@@ -49,6 +49,8 @@ const WalletPage = () => {
     const sepoliaLinkToken = '0x326C977E6efc84E512bB9C30f76E30c160eD06FB';
     const mumbaiLinkToken = '0x326C977E6efc84E512bB9C30f76E30c160eD06FB';
     const fujiLinkToken = '0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846';
+    const mumbaiCCIPBnMToken = '0xf1E3A5842EeEF51F2967b3F05D45DD4f4205FF40';
+    const fujiCCIPBnMToken = '0xD21341536c5cF5EB1bcb58f6723cE26e8D8E90e4';
 
 
     const mumbaiLinkPriceFeed = '0xEA0128f5339014D7a82d50444b902b10F3E00992';
@@ -65,15 +67,19 @@ const WalletPage = () => {
         const priceFeed = new ethers.Contract(mumbaiLinkPriceFeed, aggregatorV3InterfaceABI, mumbaiProvider);
         const erc20Link = new ethers.Contract(mumbaiLinkToken, erc20Abi, mumbaiProvider);  
         const erc20USDC = new ethers.Contract(mumbaiUSDCToken, erc20Abi, mumbaiProvider);
+        const CCIPBnMTOKEN = new ethers.Contract(mumbaiCCIPBnMToken, erc20Abi, mumbaiProvider);
+
 
         console.log(await priceFeed.getChainlinkDataFeedLatestAnswer());
 
-        const [balanceUSDC, decimalsUSDC, linkBalance, decimalLink, linkPrice] = await Promise.all([
+        const [balanceUSDC, decimalsUSDC, linkBalance, decimalLink, linkPrice, balanceCCIPBnM, decimalCCIPBnM] = await Promise.all([
             erc20USDC.balanceOf(cryptoWalletAddress),
             erc20USDC.decimals(),
             erc20Link.balanceOf(cryptoWalletAddress),
             erc20Link.decimals(),
-            priceFeed.getChainlinkDataFeedLatestAnswer()
+            priceFeed.getChainlinkDataFeedLatestAnswer(),
+            CCIPBnMTOKEN.balanceOf(cryptoWalletAddress),
+            CCIPBnMTOKEN.decimals(),
         ]);
 
         const totalBalance = Number(balanceUSDC/10**decimalsUSDC) + Number(linkBalance*linkPrice/10**decimalLink/100000000);
@@ -82,6 +88,7 @@ const WalletPage = () => {
 
         tokenList.push({ name: "usdc" , amount: balanceUSDC/10**decimalsUSDC, balance: balanceUSDC/10**decimalsUSDC, price: 1, logo: 'https://assets.coingecko.com/coins/images/6319/standard/usdc.png' });
         tokenList.push({ name: "link", amount: linkBalance/10**decimalLink, balance: linkBalance*linkPrice/10**decimalLink/100000000, price: linkPrice/100000000, logo: 'https://assets.coingecko.com/coins/images/877/standard/chainlink-new-logo.png?1696502009' });
+        tokenList.push({ name: "CCIPBnM", amount: balanceCCIPBnM/10**decimalCCIPBnM, balance:0, price: 0, logo: '/empty-token.svg' });
 
         setMumbaiTokenList(tokenList);
         setMumbaiBalance(totalBalance);
@@ -95,13 +102,16 @@ const WalletPage = () => {
         const priceFeed = new ethers.Contract(fujiLinkPriceFeed, aggregatorV3InterfaceABI, fujiProvider);
         const erc20Link = new ethers.Contract(fujiLinkToken, erc20Abi, fujiProvider);  
         const erc20USDC = new ethers.Contract(fujiUSDCToken, erc20Abi, fujiProvider);
+        const CCIPBnMTOKEN = new ethers.Contract(fujiCCIPBnMToken, erc20Abi, fujiProvider);
 
-        const [balanceUSDC, decimalsUSDC, linkBalance, decimalLink, linkPrice] = await Promise.all([
+        const [balanceUSDC, decimalsUSDC, linkBalance, decimalLink, linkPrice, balanceCCIPBnM, decimalCCIPBnM] = await Promise.all([
             erc20USDC.balanceOf(cryptoWalletAddress),
             erc20USDC.decimals(),
             erc20Link.balanceOf(cryptoWalletAddress),
             erc20Link.decimals(),
-            priceFeed.getChainlinkDataFeedLatestAnswer()
+            priceFeed.getChainlinkDataFeedLatestAnswer(),
+            CCIPBnMTOKEN.balanceOf(cryptoWalletAddress),
+            CCIPBnMTOKEN.decimals(),
         ]);
 
         const totalBalance = Number(balanceUSDC/10**decimalsUSDC) + Number(linkBalance*linkPrice/10**decimalLink/100000000);
@@ -110,6 +120,7 @@ const WalletPage = () => {
 
         tokenList.push({ name: "usdc" , amount: balanceUSDC/10**decimalsUSDC, balance: balanceUSDC/10**decimalsUSDC, price: 1, logo: 'https://assets.coingecko.com/coins/images/6319/standard/usdc.png' });
         tokenList.push({ name: "link", amount: linkBalance/10**decimalLink, balance: linkBalance*linkPrice/10**decimalLink/100000000, price: linkPrice/100000000, logo: 'https://assets.coingecko.com/coins/images/877/standard/chainlink-new-logo.png?1696502009' });
+        tokenList.push({ name: "CCIPBnM", amount: balanceCCIPBnM/10**decimalCCIPBnM, balance:0, price: 0, logo: '/empty-token.svg' });
 
         setFujiTokenList(tokenList);
         setFujiBalance(totalBalance);

@@ -74,15 +74,24 @@ const CCIP_ABI = [
 async function main() {
   try {
 
-    const signer = new ethers.Wallet('04fe32a98d4d7109152a1b01aab8c167b10e186a3b0a781ce3f5402399e076fa', new ethers.providers.JsonRpcProvider('https://rpc-mumbai.maticvigil.com/'));
+    const signer = new ethers.Wallet('04fe32a98d4d7109152a1b01aab8c167b10e186a3b0a781ce3f5402399e076fa', new ethers.providers.JsonRpcProvider('https://polygon-testnet-rpc.allthatnode.com:8545/JWJzENK28XparEtnuPckDNf8XXFATyID'));
 
 
-    const laneContract = new ethers.Contract('0x315B128ac8604b266D9cc89Fe4B43CFbBC9A3c01', CCIP_ABI, signer);
+    const laneContract = new ethers.Contract('0x4D3c9e9f2F484b60DA195Ea0E237b8f33E365CFB', CCIP_ABI, signer);
 
-    const amount = ethers.utils.parseUnits('0.1', 18);
+    const amount = ethers.utils.parseUnits('1', 18);
+    const targetChainSelector = '14767482510784806043';
+    const receiver = '0xA32B5821eaa4FaaD8B67944fCDed57C937d9B714';
+    const tokenAddress = '0xf1E3A5842EeEF51F2967b3F05D45DD4f4205FF40';
 
-    const tx = await laneContract.transferTokensPayLINK('14767482510784806043', '0x1D45D389E38Fd1b7c5D1BE163aA3baa4466d279b', '0xf1E3A5842EeEF51F2967b3F05D45DD4f4205FF40', amount);
+    const tx = await laneContract.transferTokensPayLINK(
+      targetChainSelector,
+      receiver,
+      tokenAddress,
+      amount
+    );
 
+    await tx.wait();
     console.log(tx);
   } catch (error) {
     console.error(error);
