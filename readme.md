@@ -37,6 +37,6 @@ https://mumbai.polygonscan.com/address/0x1D45D389E38Fd1b7c5D1BE163aA3baa4466d279
 ![Screenshot](screenshot2.png)
 
 Pitchdeck
-[link] (https://www.canva.com/design/DAF2oE4IrJY/ZSOmvMbgQ-orVTN23d5reA/edit?utm_content=DAF2oE4IrJY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+https://www.canva.com/design/DAF2oE4IrJY/ZSOmvMbgQ-orVTN23d5reA/edit?utm_content=DAF2oE4IrJY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
 
