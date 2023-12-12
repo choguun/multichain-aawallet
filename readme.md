@@ -34,9 +34,8 @@ Smart Contract Wallet
 https://mumbai.polygonscan.com/address/0x1D45D389E38Fd1b7c5D1BE163aA3baa4466d279b
 
 Factory Contract
-https://mumbai.polygonscan.com/address/0xdB739d9603A1008eBD070db917931bda83717bC5#code
+https://mumbai.polygonscan.com/address/0xdB739d9603A1008eBD070db917931bda83717bC5
 https://testnet.snowtrace.io/address/0xdB739d9603A1008eBD070db917931bda83717bC5
-
 
 ![Screenshot](screenshot2.png)
 
