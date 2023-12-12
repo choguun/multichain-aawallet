@@ -25,6 +25,10 @@ const config: HardhatUserConfig = {
     fuji: {
       url: process.env.RPC_FUJI!,
       accounts: [process.env.KEY!]
+    },
+    sepolia: {
+      url: process.env.RPC_SEPOLIA!,
+      accounts: [process.env.KEY!]
     }
   },
   typechain: {
